@@ -1,6 +1,6 @@
 {
   "name": "tibco-ssh",
-  "title": "SSH Command Executor",
+  "title": "Ssh",
   "version": "1.0.0",
   "type": "flogo:activity",
   "description": "Execute SSH commands on remote servers and return results.",
@@ -11,57 +11,37 @@
       "name": "sshServername",
       "type": "string",
       "required": true,
-      "display": {
-        "name": "SSH Server Name",
-        "description": "The hostname or IP address of the SSH server to connect to.",
-        "type": "textinput",
-        "mappable": true
-      }
+      "description": "The hostname or IP address of the SSH server to connect to.",
+      "mappable": true
     },
     {
       "name": "sshServerPort",
       "type": "integer",
       "required": false,
       "value": 22,
-      "display": {
-        "name": "SSH Server Port",
-        "description": "The port number for SSH connection (default: 22).",
-        "type": "textinput",
-        "mappable": true
-      }
+      "description": "The port number for SSH connection (default: 22).",
+      "mappable": true
     },
     {
       "name": "sshUsername",
       "type": "string",
       "required": true,
-      "display": {
-        "name": "SSH Username",
-        "description": "The username for SSH authentication.",
-        "type": "textinput",
-        "mappable": true
-      }
+      "description": "The username for SSH authentication.",
+      "mappable": true
     },
     {
       "name": "sshPassword",
       "type": "string",
       "required": true,
-      "display": {
-        "name": "SSH Password",
-        "description": "The password for SSH authentication.",
-        "type": "password",
-        "mappable": true
-      }
+      "description": "The password for SSH authentication.",
+      "mappable": true
     },
     {
       "name": "sshCommand",
       "type": "string",
       "required": true,
-      "display": {
-        "name": "SSH Command",
-        "description": "The command to execute on the remote SSH server.",
-        "type": "texteditor",
-        "mappable": true
-      }
+      "description": "The command to execute on the remote SSH server.",
+      "mappable": true
     }
   ],
   "outputs": [

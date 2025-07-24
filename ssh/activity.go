@@ -262,7 +262,7 @@ func (a *Activity) executeSSHCommand(hostname string, port int, username, passwo
 	defer session.Close()
 
 	a.logger.Debugf("Executing SSH command: %s", command)
-
+	a.logger.Info("Executing SSH command: %s", command)
 	// Execute the command
 	output, err := session.CombinedOutput(command)
 	outputText := strings.TrimSpace(string(output))
