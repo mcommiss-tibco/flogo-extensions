@@ -1,0 +1,66 @@
+{
+  "imports": [
+    "github.com/project-flogo/flow",
+    "github.com/project-flogo/contrib/activity/noop",
+    "github.com/mcommiss-tibco/flogo-extensions/try"
+  ],
+  "name": "testap",
+  "description": "",
+  "version": "1.0.0",
+  "type": "flogo:app",
+  "appModel": "1.1.1",
+  "tags": [],
+  "triggers": [],
+  "resources": [
+    {
+      "id": "flow:New_flow",
+      "data": {
+        "name": "New_flow",
+        "description": "",
+        "links": [
+          {
+            "id": 1,
+            "from": "StartActivity",
+            "to": "Tryme",
+            "type": "label",
+            "label": "StartActivity to Tryme"
+          }
+        ],
+        "tasks": [
+          {
+            "id": "StartActivity",
+            "name": "StartActivity",
+            "description": "NoOp Activity",
+            "activity": {
+              "ref": "#noop"
+            }
+          },
+          {
+            "id": "Tryme",
+            "name": "Tryme",
+            "description": "just a try.",
+            "activity": {
+              "ref": "#try",
+              "settings": {
+                "metricType": "gauge"
+              }
+            }
+          }
+        ],
+        "fe_metadata": "eyJTdGFydEFjdGl2aXR5Ijp7IngiOjEwMCwieSI6MTAwfSwiVHJ5bWUiOnsieCI6MzkyLCJ5IjoxMzN9fQ==",
+        "metadata": {
+          "input": [],
+          "output": [],
+          "fe_metadata": {}
+        }
+      }
+    }
+  ],
+  "properties": [],
+  "connections": {},
+  "contrib": "W3sicmVmIjoiZ2l0aHViLmNvbS9tY29tbWlzcy10aWJjby9mbG9nby1leHRlbnNpb25zL3RyeSIsInZlcnNpb24iOiIxLjAuMCIsInRhZyI6IjEuMC4wIiwibmFtZSI6IlRyeW1lIiwiaWQiOiJ0aWJjby10cnkiLCJzM2xvY2F0aW9uIjoie1VTRVJJRH0vRGVmYXVsdC9hY3Rpdml0eS90cnkiLCJpc1VzZXJFeHRlbnNpb24iOnRydWV9XQ==",
+  "metadata": {
+    "endpoints": [],
+    "flogoVersion": "2.25.6"
+  }
+}

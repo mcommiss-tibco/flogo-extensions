@@ -1,0 +1,89 @@
+{
+  "name": "tibco-ssh",
+  "title": "SSH Command Executor",
+  "version": "1.0.0",
+  "type": "flogo:activity",
+  "description": "Execute SSH commands on remote servers and return results.",
+  "ref": "github.com/mcommiss-tibco/flogo-extensions/ssh",
+  "settings": {},
+  "inputs": [
+    {
+      "name": "sshServername",
+      "type": "string",
+      "required": true,
+      "display": {
+        "name": "SSH Server Name",
+        "description": "The hostname or IP address of the SSH server to connect to.",
+        "type": "textinput",
+        "mappable": true
+      }
+    },
+    {
+      "name": "sshServerPort",
+      "type": "integer",
+      "required": false,
+      "value": 22,
+      "display": {
+        "name": "SSH Server Port",
+        "description": "The port number for SSH connection (default: 22).",
+        "type": "textinput",
+        "mappable": true
+      }
+    },
+    {
+      "name": "sshUsername",
+      "type": "string",
+      "required": true,
+      "display": {
+        "name": "SSH Username",
+        "description": "The username for SSH authentication.",
+        "type": "textinput",
+        "mappable": true
+      }
+    },
+    {
+      "name": "sshPassword",
+      "type": "string",
+      "required": true,
+      "display": {
+        "name": "SSH Password",
+        "description": "The password for SSH authentication.",
+        "type": "password",
+        "mappable": true
+      }
+    },
+    {
+      "name": "sshCommand",
+      "type": "string",
+      "required": true,
+      "display": {
+        "name": "SSH Command",
+        "description": "The command to execute on the remote SSH server.",
+        "type": "texteditor",
+        "mappable": true
+      }
+    }
+  ],
+  "outputs": [
+    {
+      "name": "resultCode",
+      "type": "integer",
+      "display": {
+        "name": "Result Code",
+        "description": "The exit code returned by the SSH command execution (0 = success).",
+        "type": "textinput",
+        "mappable": true
+      }
+    },
+    {
+      "name": "resultText",
+      "type": "string",
+      "display": {
+        "name": "Result Text",
+        "description": "The output text returned from the SSH command execution.",
+        "type": "texteditor",
+        "mappable": true
+      }
+    }
+  ]
+}
