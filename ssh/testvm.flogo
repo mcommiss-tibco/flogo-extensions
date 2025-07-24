@@ -28,7 +28,7 @@
             "Delayed Start": false,
             "Time Interval": 1,
             "Interval Unit": "Second",
-            "Cron Expression": ""
+            "Cron Expression": "CRON_TZ=Europe/Amsterdam * * * * *"
           },
           "action": {
             "ref": "github.com/project-flogo/flow",
