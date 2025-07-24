@@ -138,49 +138,50 @@ func (a *Activity) Metadata() *activity.Metadata {
 
 // Eval executes the activity
 func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
-	// Get input values using the proper Flogo API
-	sshServername := ""
-	sshServerPort := 22
-	sshUsername := ""
-	sshPassword := ""
-	sshCommand := ""
+	// Create input struct and populate it from context
+	a.logger.Info("SSH Eval Activity executing")
+	input := &Input{}
 
+	// Get input values and populate the struct
 	if val := ctx.GetInput("sshServername"); val != nil {
 		if str, ok := val.(string); ok {
-			sshServername = str
+			input.SSHServername = str
 		}
 	}
-
+	a.logger.Info("sshServername:", input.SSHServername)
 	if val := ctx.GetInput("sshServerPort"); val != nil {
 		if port, ok := val.(int); ok {
-			sshServerPort = port
+			input.SSHServerPort = port
 		} else if portFloat, ok := val.(float64); ok {
-			sshServerPort = int(portFloat)
+			input.SSHServerPort = int(portFloat)
 		}
+	} else {
+		// Set default port if not provided
+		input.SSHServerPort = 22
 	}
 
 	if val := ctx.GetInput("sshUsername"); val != nil {
 		if str, ok := val.(string); ok {
-			sshUsername = str
+			input.SSHUsername = str
 		}
 	}
 
 	if val := ctx.GetInput("sshPassword"); val != nil {
 		if str, ok := val.(string); ok {
-			sshPassword = str
+			input.SSHPassword = str
 		}
 	}
 
 	if val := ctx.GetInput("sshCommand"); val != nil {
 		if str, ok := val.(string); ok {
-			sshCommand = str
+			input.SSHCommand = str
 		}
 	}
 
-	a.logger.Debugf("SSH Activity executing with server: %s:%d, user: %s", sshServername, sshServerPort, sshUsername)
+	a.logger.Debugf("SSH Activity executing with server: %s:%d, user: %s", input.SSHServername, input.SSHServerPort, input.SSHUsername)
 
 	// Validate required inputs
-	if sshServername == "" {
+	if input.SSHServername == "" {
 		err = fmt.Errorf("sshServername is required")
 		a.logger.Error(err.Error())
 		ctx.SetOutput("resultCode", -1)
@@ -188,7 +189,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 		return true, nil
 	}
 
-	if sshUsername == "" {
+	if input.SSHUsername == "" {
 		err = fmt.Errorf("sshUsername is required")
 		a.logger.Error(err.Error())
 		ctx.SetOutput("resultCode", -1)
@@ -196,7 +197,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 		return true, nil
 	}
 
-	if sshPassword == "" {
+	if input.SSHPassword == "" {
 		err = fmt.Errorf("sshPassword is required")
 		a.logger.Error(err.Error())
 		ctx.SetOutput("resultCode", -1)
@@ -204,7 +205,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 		return true, nil
 	}
 
-	if sshCommand == "" {
+	if input.SSHCommand == "" {
 		err = fmt.Errorf("sshCommand is required")
 		a.logger.Error(err.Error())
 		ctx.SetOutput("resultCode", -1)
@@ -213,14 +214,15 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 	}
 
 	// Execute SSH command
-	resultCode, resultText, err := a.executeSSHCommand(sshServername, sshServerPort, sshUsername, sshPassword, sshCommand)
+	resultCode, resultText, err := a.executeSSHCommand(input.SSHServername, input.SSHServerPort, input.SSHUsername, input.SSHPassword, input.SSHCommand)
 	if err != nil {
 		a.logger.Errorf("SSH command execution failed: %v", err)
 		ctx.SetOutput("resultCode", -1)
 		ctx.SetOutput("resultText", fmt.Sprintf("SSH Error: %v", err))
 		return true, nil
 	}
-
+	a.logger.Info("SSH command executed successfully")
+	a.logger.Info("SSH command output:", resultText)
 	// Set outputs
 	ctx.SetOutput("resultCode", resultCode)
 	ctx.SetOutput("resultText", resultText)

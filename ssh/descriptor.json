@@ -5,7 +5,7 @@
   "type": "flogo:activity",
   "description": "Execute SSH commands on remote servers and return results.",
   "ref": "github.com/mcommiss-tibco/flogo-extensions/ssh",
-  "settings": {},
+  "settings": [],
   "inputs": [
     {
       "name": "sshServername",

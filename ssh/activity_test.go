@@ -211,3 +211,27 @@ func TestOutput_ToMap(t *testing.T) {
 	assert.Equal(t, 0, values["resultCode"])
 	assert.Equal(t, "success", values["resultText"])
 }
+
+// func TestOutput_AllOk(t *testing.T) {
+// 	ctx := test.NewActivityInitContext(map[string]interface{}{}, nil)
+
+// 	a, err := New(ctx)
+// 	assert.Nil(t, err)
+
+// 	tc := test.NewActivityContext(a.Metadata())
+// 	tc.SetInput("sshServername", "192.168.2.138")
+// 	tc.SetInput("sshServerPort", 22)
+// 	tc.SetInput("sshUsername", "tibco")
+// 	tc.SetInput("sshPassword", "tibco")
+// 	tc.SetInput("sshCommand", "ls -ltr /")
+// 	// Not setting sshServerPort, should default to 22
+
+// 	done, err := a.Eval(tc)
+// 	assert.True(t, done)
+// 	assert.Nil(t, err)
+
+// 	resultCode := tc.GetOutput("resultCode")
+// 	resultText := tc.GetOutput("resultText")
+// 	assert.Equal(t, -1, resultCode)
+// 	assert.Contains(t, resultText, "test")
+// }
