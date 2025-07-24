@@ -1,0 +1,44 @@
+{
+  "name": "tibco-try",
+  "title": "Try activity",
+  "version": "1.0.0",
+  "type": "flogo:activity",
+  "description": "A simple activity for testing purposes.",
+  "ref": "github.com/mcommiss-tibco/flogo-extensions/try",
+  "settings": [
+    {
+      "name": "metricType",
+      "type": "boolean",
+      "required": true,
+      "value": "false",
+      "display": {
+        "name": "Check me",
+        "description": "Boolean setting to toggle processing.",
+      }
+    }
+  ],
+  "inputs": [
+    {
+      "name": "inputString",
+      "type": "string",
+      "display": {
+        "name": "Input string for testing",
+        "description": "Input string for testing purposes.",
+        "type": "texteditor",
+        "mappable": true
+      }
+    }
+  ],
+  "outputs": [
+    {
+      "name": "outputString",
+      "type": "string",
+      "display": {
+        "name": "Output for testing",
+        "description": "Output string for testing purposes.", 
+        "type": "texteditor",
+        "mappable": true
+      }
+    }
+  ]
+}
