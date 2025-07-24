@@ -33,20 +33,14 @@ func TestEval_MetricTypeEnabled(t *testing.T) {
 	assert.Nil(t, err)
 
 	tc := test.NewActivityContext(a.Metadata())
-	input := &Input{
-		InputString: "test input",
-	}
-	err = tc.SetInputObject(input)
-	assert.Nil(t, err)
+	tc.SetInput("inputString", "test input")
 
 	done, err := a.Eval(tc)
 	assert.True(t, done)
 	assert.Nil(t, err)
 
-	output := &Output{}
-	err = tc.GetOutputObject(output)
-	assert.Nil(t, err)
-	assert.Equal(t, "Processed (MetricType enabled): test input", output.OutputString)
+	output := tc.GetOutput("outputString")
+	assert.Equal(t, "Processed (MetricType enabled): test input", output)
 }
 
 func TestEval_MetricTypeDisabled(t *testing.T) {
@@ -58,20 +52,14 @@ func TestEval_MetricTypeDisabled(t *testing.T) {
 	assert.Nil(t, err)
 
 	tc := test.NewActivityContext(a.Metadata())
-	input := &Input{
-		InputString: "test input",
-	}
-	err = tc.SetInputObject(input)
-	assert.Nil(t, err)
+	tc.SetInput("inputString", "test input")
 
 	done, err := a.Eval(tc)
 	assert.True(t, done)
 	assert.Nil(t, err)
 
-	output := &Output{}
-	err = tc.GetOutputObject(output)
-	assert.Nil(t, err)
-	assert.Equal(t, "Passed through (MetricType disabled): test input", output.OutputString)
+	output := tc.GetOutput("outputString")
+	assert.Equal(t, "Passed through (MetricType disabled): test input", output)
 }
 
 func TestEval_EmptyInput(t *testing.T) {
@@ -83,18 +71,12 @@ func TestEval_EmptyInput(t *testing.T) {
 	assert.Nil(t, err)
 
 	tc := test.NewActivityContext(a.Metadata())
-	input := &Input{
-		InputString: "",
-	}
-	err = tc.SetInputObject(input)
-	assert.Nil(t, err)
+	tc.SetInput("inputString", "")
 
 	done, err := a.Eval(tc)
 	assert.True(t, done)
 	assert.Nil(t, err)
 
-	output := &Output{}
-	err = tc.GetOutputObject(output)
-	assert.Nil(t, err)
-	assert.Equal(t, "Processed (MetricType enabled): ", output.OutputString)
+	output := tc.GetOutput("outputString")
+	assert.Equal(t, "Processed (MetricType enabled): ", output)
 }

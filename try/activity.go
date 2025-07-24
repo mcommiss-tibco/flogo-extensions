@@ -24,9 +24,43 @@ type Input struct {
 	InputString string `md:"inputString"`
 }
 
+// FromMap implements data.StructValue.FromMap
+func (i *Input) FromMap(values map[string]interface{}) error {
+	if val, exists := values["inputString"]; exists {
+		if str, ok := val.(string); ok {
+			i.InputString = str
+		}
+	}
+	return nil
+}
+
+// ToMap implements data.StructValue.ToMap
+func (i *Input) ToMap() map[string]interface{} {
+	return map[string]interface{}{
+		"inputString": i.InputString,
+	}
+}
+
 // Output represents the output data structure
 type Output struct {
 	OutputString string `md:"outputString"`
+}
+
+// FromMap implements data.StructValue.FromMap
+func (o *Output) FromMap(values map[string]interface{}) error {
+	if val, exists := values["outputString"]; exists {
+		if str, ok := val.(string); ok {
+			o.OutputString = str
+		}
+	}
+	return nil
+}
+
+// ToMap implements data.StructValue.ToMap
+func (o *Output) ToMap() map[string]interface{} {
+	return map[string]interface{}{
+		"outputString": o.OutputString,
+	}
 }
 
 // Activity is the main activity struct
@@ -61,36 +95,33 @@ func (a *Activity) Metadata() *activity.Metadata {
 
 // Eval executes the activity
 func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
-	input := &Input{}
-	err = ctx.GetInputObject(input)
-	if err != nil {
-		return false, err
+	// Get input using the proper Flogo API
+	inputValue := ctx.GetInput("inputString")
+	inputString := ""
+	if inputValue != nil {
+		if str, ok := inputValue.(string); ok {
+			inputString = str
+		}
 	}
 
-	a.logger.Debugf("Try Activity executing with input: %+v", input)
+	a.logger.Debugf("Try Activity executing with input: %s", inputString)
 
 	// Process the input based on the metricType setting
 	var outputString string
 	if a.settings.MetricType {
 		// If metricType is true, transform the input string
-		outputString = fmt.Sprintf("Processed (MetricType enabled): %s", input.InputString)
+		outputString = fmt.Sprintf("Processed (MetricType enabled): %s", inputString)
 		a.logger.Infof("MetricType is enabled, processing input string")
 	} else {
 		// If metricType is false, just pass through the input
-		outputString = fmt.Sprintf("Passed through (MetricType disabled): %s", input.InputString)
+		outputString = fmt.Sprintf("Passed through (MetricType disabled): %s", inputString)
 		a.logger.Infof("MetricType is disabled, passing through input string")
 	}
 
-	output := &Output{
-		OutputString: outputString,
-	}
+	// Set output using the proper Flogo API
+	ctx.SetOutput("outputString", outputString)
 
-	err = ctx.SetOutputObject(output)
-	if err != nil {
-		return false, err
-	}
-
-	a.logger.Debugf("Try Activity completed with output: %+v", output)
+	a.logger.Debugf("Try Activity completed with output: %s", outputString)
 
 	return true, nil
 }
